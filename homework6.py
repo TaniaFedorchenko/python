@@ -96,7 +96,7 @@ def scan(folder: Path) -> None:
             EXTENSION.add(ext)
             container.append(fullname)
     
-if __name__ == "__main__":
+def main():
     folder_to_scan = sys.argv[1]
     print(f'start in folder {folder_to_scan}')   
     scan(Path(folder_to_scan))
@@ -108,3 +108,6 @@ if __name__ == "__main__":
     print(f'My_others: {MY_OTHERS}')
 
     print(FOLDERS[::-1])
+    
+if __name__ == "__main__":
+    main()
