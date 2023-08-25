@@ -27,31 +27,30 @@ def add_handler(data):  # Функції обробники команд
     ADDRESSBOOK[name] = phone
     return f"Contact {name} with phone {phone} was saved"
 
-
+@input_error
 def change_handler(data): # додаю умову 4.3   \ return немає, бо за умовою функція нічого не поверта. Можливо , тут помилка 
     name = data[0].title()
     phone = data[1]
-    phone_new = phone.replace(data[1])
-    ADDRESSBOOK[name] = phone_new
-    return f"New contact {name} with phone {phone_new} was saved"
+    # phone_new = phone.replace(data[1])
+    ADDRESSBOOK[name] = phone
+    return f"New contact {name} with phone {phone} was saved" #  перевіряю для себе , однак пише , що не вистачає 1 аргумента ( 
     
 
-  
-def phone_hangler(name): # додаю умову 4.4
+@input_error  
+def phone_hangler(data): 
+    name = data[0]# додаю умову 4.4
     for key, value in ADDRESSBOOK.items():
-        if name in key:
+        if name.title() == key:
             return value
     
-    #if name in ADDRESSBOOK:
-        #phone = ADDRESSBOOK.get(name)
-        #return phone
     return 'Write correct name please '
 
 
+@input_error
 def show_all_handler():
     return ADDRESSBOOK
 
-
+@input_error
 def exit_handler(*args):
     return "Good bye!"
 
@@ -61,7 +60,10 @@ def command_parser(raw_str: str):  # Парсер команд
     elements = raw_str.split()
     for key, value in COMMANDS.items():
         if elements[0].lower() in value:
-            return key(elements[1:])
+            if len(elements) > 1:
+                return key(elements[1:])
+            else:
+                return key()
     return "Unknown command"
 
 
@@ -80,9 +82,12 @@ def main():  # Цикл запит-відповідь.
         user_input = input(">>> ")  # add Vlad 0987009090
         result = command_parser(user_input)
         print(result)
-        if result == "Good bye!" or ".":   # додала умову 2
+        if result == "Good bye!" or result == ".":   # додала умову 2
             break
 
 
 if __name__ == "__main__":
     main()
+    
+    
+ 
